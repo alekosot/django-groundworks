@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
-from django.utils import timezone
+from django.utils import six, timezone
 
 try:
     from uuslug import uuslug
@@ -123,3 +123,36 @@ class Undeletable(models.Model):
     def delete(self, *args, **kwargs):
         self.date_deleted = timezone.now()
         return
+
+
+# TODO: Add check for the case of unique=True for a field in
+#       _enforced_values, while the corresponding value is not a callable.
+class WithEnforcedValues(models.Model):
+    """
+    Enforces values for fields before save. The fields are defined as keys in
+    the _enforced_values dictionary and the values are defined as values for
+    the appropriate. If the value is callable it will be called with the
+    specific instance as the only parameter.
+
+    Example:
+        class ModelA(models.Model):
+            field1 = models.CharField(...)
+            field2 = models.CharField(...)
+
+        _enforced_values = {
+            'field1': 'this value is enforced for every ModelA.field1'
+            'field2': callable
+        }
+    """
+    _enforced_values = {}
+
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        if self._enforced_values:
+            for field, value in six.iteritems(self._enforced_values):
+                if callable(value):
+                    setattr(self, field, value(self))
+                setattr(self, field, value)
+        return super(WithEnforcedValues, self).save(*args, **kwargs)
