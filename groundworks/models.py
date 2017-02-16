@@ -16,7 +16,7 @@ except ImportError:
 
 try:
     from ckeditor_uploader.fields import RichTextUploadingField
-except:
+except ImportError:
     from django.forms import TextField as RichTextUploadingField
 
 
