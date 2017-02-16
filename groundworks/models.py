@@ -82,10 +82,10 @@ class Slugged(models.Model):
         return super(Slugged, self).save(*args, **kwargs)
 
 
-class WithMetaData(models.Model):
+class WithMetadata(models.Model):
     meta_title = models.CharField(_('meta title'), blank=True, max_length=255)
     meta_description = models.TextField(
-        _('meta description'), blank=True, max_length=160, help_text=_(
+        _('meta description'), blank=True, max_length=255, help_text=_(
             'Normally you should keep this between 150 and 160 characters'))
     meta_keywords = models.CharField(
         _('meta keywords'), blank=True, help_text=(
@@ -96,7 +96,7 @@ class WithMetaData(models.Model):
 
     def save(self, *args, **kwargs):
         self.meta_description = self.generate_meta_description()
-        return super(WithMetaData, self).save(*args, **kwargs)
+        return super(WithMetadata, self).save(*args, **kwargs)
 
     def generate_meta_description(self):
         return self.meta_description
