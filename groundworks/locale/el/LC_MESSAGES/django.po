@@ -1,0 +1,98 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: django-groundworks\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-17 14:45+0000\n"
+"PO-Revision-Date: 2017-02-17 16:53+0200\n"
+"Last-Translator: Alex Sotiriou <alekos@radial.gr>\n"
+"Language-Team: Alex Sotiriou <a.sotiriou@difio.gr>\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#: admin.py:95
+#, python-format
+msgid "%(name)s object with primary key %(key)r does not exist."
+msgstr "Το αντικείμενο %(name)s με πρωτεύων κλειδί %(key)r δεν υπάρχει."
+
+#: admin.py:104
+#, python-format
+msgid ""
+"%(name)s object with primary key %(key)r is not related to any %(user)s."
+msgstr ""
+"Το αντικείμενο %(name)s με πρωτεύων κλειδί %(key)r δε συσχετίζεται με κάποιο "
+"%(user)s."
+
+#: admin.py:120
+msgid "Password changed successfully."
+msgstr "Το συνθηματικό άλλαξε επιτυχώς."
+
+#: admin.py:140
+#, python-format
+msgid "Change password: %s"
+msgstr "Αλλαγή συνηθηματικού: %s"
+
+#: forms.py:113
+msgid "Please provide one (and only one) of {}"
+msgstr "Παρακαλώ συμπληρώστε ένα (και μόνο ένα) {}"
+
+#: models.py:25
+msgid "date created"
+msgstr "ημερομηνία δημιουργίας"
+
+#: models.py:27
+msgid "date updated"
+msgstr "ημερομηνία τροποποίησης"
+
+#: models.py:41
+msgid "published on"
+msgstr "δημοσίευση στις"
+
+#: models.py:42
+msgid "This will not be shown until the date and time given here."
+msgstr "Δε θα εμφανίζεται μέχρι την ανωτέρω ημ/νία και ώρα."
+
+#: models.py:44
+msgid "Is this published?"
+msgstr "Είναι αυτό δημοσιευμένο"
+
+#: models.py:45
+msgid "This will not be shown if this is unchecked."
+msgstr "Δε θα εμφανίζεται αν αυτό είναι τσεκαρισμένο."
+
+#: models.py:67
+msgid "title"
+msgstr "τίτλος"
+
+#: models.py:68
+msgid "partial URL"
+msgstr "τμήμα της διεύθυνσης URL"
+
+#: models.py:86
+msgid "meta title"
+msgstr "τίτλος"
+
+#: models.py:88
+msgid "meta description"
+msgstr "περιγραφή"
+
+#: models.py:89
+msgid "Normally you should keep this between 150 and 160 characters"
+msgstr ""
+"Κανονικά, αυτό το κείμενο πρέπει να είναι μεταξύ 150 και 160 χαρακτήρων"
+
+#: models.py:91
+msgid "meta keywords"
+msgstr "λέξεις κλειδιά"
+
+#: models.py:106
+msgid "content"
+msgstr "περιεχόμενο"
