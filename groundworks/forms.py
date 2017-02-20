@@ -96,7 +96,9 @@ class MultiSourceFieldsFormMixin(object):
             self.set_initial_for_multi_source_field()
 
     def set_initial_for_multi_source_field(self):
-        raise NotImplementedError('Subclasses must implement this.')
+        raise NotImplementedError(
+            'Method set_initial_for_multi_source_field has not been '
+            'implemented for {}.'.format(self.__class__.__name__))
 
     def clean(self):
         """
@@ -141,5 +143,6 @@ class MultiSourceFieldsFormMixin(object):
         the class.
         """
         raise NotImplementedError(
-            '{}._multi_source_fields has not been set'.format(self.__name__)
+            '{}._multi_source_fields has not been set'
+            .format(self.__class__.__name__)
         )
