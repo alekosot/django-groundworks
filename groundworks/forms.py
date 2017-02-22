@@ -69,8 +69,7 @@ class UserFieldsIncludedMixin(forms.ModelForm):
 
         return instance
 
-# TODO: Docstring is inaccurate. It talks about a hidden field, which is not
-#       the case.
+
 class MultiSourceFieldsFormMixin(object):
     """
     A hackish way to provide multiple fields (sources) from which to derive
@@ -109,7 +108,7 @@ class MultiSourceFieldsFormMixin(object):
         """
         cleaned_data = super(MultiSourceFieldsFormMixin, self).clean()
         for target, sources in six.iteritems(self._multi_source_fields):
-            data = [cleaned_data[s] for s in sources if s in cleaned_data]
+            data = [cleaned_data[s] for s in sources]
             non_empty_data = [d for d in filter(None, data)]
             if len(non_empty_data) != 1:
                 raise forms.ValidationError(_(
