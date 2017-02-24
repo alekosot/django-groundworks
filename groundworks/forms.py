@@ -146,3 +146,24 @@ class MultiSourceFieldsFormMixin(object):
             '{}._multi_source_fields has not been set'
             .format(self.__class__.__name__)
         )
+
+
+class RenamedFieldsMixin(object):
+    """
+    Dynamically renames the fields according to ``self._renamed_fields``.
+
+    Example:
+        _renamed_fields = {
+            'field_to_be_renamed': 'new_name_for_the_field_to_be_renamed'
+        }
+    """
+    def add_prefix(self, field_name):
+        field_name = self._renamed_fields.get(field_name, field_name)
+        return super(RenamedFieldsMixin, self).add_prefix(field_name)
+
+    @property
+    def _renamed_fields(self):
+        raise NotImplementedError(
+            '{}._renamed_fields has not been set'
+            .format(self.__class__.__name__)
+        )
