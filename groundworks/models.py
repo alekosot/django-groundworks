@@ -20,7 +20,6 @@ except ImportError:
     from django.forms import TextField as RichTextUploadingField
 
 
-@python_2_unicode_compatible
 class TimeStamped(models.Model):
     date_created = models.DateTimeField(_('date created'))
     date_updated = models.DateTimeField(
@@ -35,7 +34,6 @@ class TimeStamped(models.Model):
         return super(TimeStamped, self).save(*args, **kwargs)
 
 
-@python_2_unicode_compatible
 class Publishable(models.Model):
     date_published = models.DateTimeField(
         _('published on'), blank=True, null=True, help_text=_(
