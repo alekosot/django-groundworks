@@ -52,10 +52,6 @@ class Publishable(models.Model):
         else:
             return self.date_published > timezone.now()
 
-    @property
-    def is_published(self):
-        return not self.is_draft
-
 
 @python_2_unicode_compatible
 class Slugged(models.Model):
