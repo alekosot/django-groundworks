@@ -97,7 +97,7 @@ class WithMetadata(models.Model):
 
 
 class RichText(models.Model):
-    content = RichTextUploadingField(_('content'), )
+    content = RichTextUploadingField(_('content'), blank=True)
 
     class Meta:
         abstract = True
