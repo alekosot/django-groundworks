@@ -17,7 +17,7 @@ except ImportError:
 try:
     from ckeditor_uploader.fields import RichTextUploadingField
 except ImportError:
-    from django.forms import TextField as RichTextUploadingField
+    from django.db.models import TextField as RichTextUploadingField
 
 
 class TimeStamped(models.Model):
