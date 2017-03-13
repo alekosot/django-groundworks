@@ -19,14 +19,19 @@ try:
 except ImportError:
     from django.db.models import TextField as RichTextUploadingField
 
+from groundworks import managers
+
 
 class TimeStamped(models.Model):
     date_created = models.DateTimeField(_('date created'))
     date_updated = models.DateTimeField(
         _('date updated'), default=timezone.now)
 
+    objects = managers.TimeStampedManager()
+
     class Meta:
         abstract = True
+        base_manager_name = 'objects'
 
     def save(self, *args, **kwargs):
         if not self.date_created:
@@ -42,8 +47,11 @@ class Publishable(models.Model):
         _('Is this published?'), default=False, help_text=_(
             'This will not be shown if this is unchecked.'))
 
+    objects = managers.PublishableManager()
+
     class Meta:
         abstract = True
+        base_manager_name = 'objects'
 
     @property
     def is_draft(self):
@@ -111,8 +119,11 @@ class Undeletable(models.Model):
     """
     date_deleted = models.DateTimeField(blank=True)
 
+    objects = managers.UndeletableManager()
+
     class Meta:
         abstract = True
+        base_manager_name = 'objects'
 
     def delete(self, *args, **kwargs):
         self.date_deleted = timezone.now()
