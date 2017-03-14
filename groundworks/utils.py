@@ -4,13 +4,11 @@ from __future__ import unicode_literals
 from django.contrib.auth import get_user_model
 
 
-User = get_user_model()
-
-
 def has_edit_user_permissions(user):
     """
     Checks whether a given User has permissions to both add and change Users.
     """
+    User = get_user_model()
     app = User._meta.app_label
     model = User.__name__.lower()
     return user.has_perms([
@@ -27,5 +25,5 @@ def upload_path(instance, filename):
     """
     app_name = instance._meta.app_name
     model = instance._meta.model.lower()
-    identifier = instance.slug if hasattr(instance, slug) or instance.pk
+    identifier = instance.slug if hasattr(instance, slug) else instance.pk
     return '/'.join([app_name, model, identifier, ''])
