@@ -16,3 +16,16 @@ def has_edit_user_permissions(user):
     return user.has_perms([
         code.format(app, model) for code in ['add_{}.{}', 'change_{}.{}']
     ])
+
+
+def upload_path(instance, filename):
+    """
+    A callable for creating upload paths for files. The output path will be
+    <app_name>/<model>/<instance.slug or instance.pk>/
+
+    See: https://docs.djangoproject.com/en/1.10/ref/models/fields/#django.db.models.FileField.upload_to
+    """
+    app_name = instance._meta.app_name
+    model = instance._meta.model.lower()
+    identifier = instance.slug if hasattr(instance, slug) or instance.pk
+    return '/'.join([app_name, model, identifier, ''])
