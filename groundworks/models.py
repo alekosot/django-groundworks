@@ -68,13 +68,6 @@ class WithMetadata(models.Model):
         return self.meta_description
 
 
-class RichText(models.Model):
-    content = RichTextUploadingField(_('content'), blank=True)
-
-    class Meta:
-        abstract = True
-
-
 class Undeletable(models.Model):
     """
     Replaces deletion of this model with updating of date_deleted.
