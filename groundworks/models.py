@@ -6,19 +6,6 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.utils import six, timezone
 
-try:
-    from uuslug import uuslug
-except ImportError:
-    from django.utils.text import slugify
-
-    def uuslug(string, obj):
-        return slugify(string)
-
-try:
-    from ckeditor_uploader.fields import RichTextUploadingField
-except ImportError:
-    from django.db.models import TextField as RichTextUploadingField
-
 from groundworks import managers
 
 
@@ -59,29 +46,6 @@ class Publishable(models.Model):
             return True
         else:
             return self.date_published > timezone.now()
-
-
-@python_2_unicode_compatible
-class Slugged(models.Model):
-    """
-    Adds a slug field, with a unique constraint, but does nothing to ensure it.
-    """
-    title = models.CharField(_('title'), max_length=255)
-    slug = models.SlugField(_('partial URL'), max_length=255, unique=True)
-
-    class Meta:
-        abstract = True
-
-    def __str__(self):
-        return self.title
-
-    def generate_slug(self):
-        return uuslug(self.title, instance=self)
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = self.generate_slug()
-        return super(Slugged, self).save(*args, **kwargs)
 
 
 class WithMetadata(models.Model):
