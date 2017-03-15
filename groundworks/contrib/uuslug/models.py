@@ -37,5 +37,5 @@ class UUSlugged(models.Model):
                     # already defined slug.
                     self.slug = self.generate_slug(self.slug)
             else:
-                self.slug = generate_slug()
+                self.slug = self.generate_slug()
         return super(UUSlugged, self).save(*args, **kwargs)
