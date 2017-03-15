@@ -16,7 +16,7 @@ class UUSlugged(models.Model):
     slug = models.SlugField(
         _('partial URL'), max_length=255, unique=True, help_text=_(
             'If this is edited after "save", then what you entered is not '
-            'unique for this type of object.'))
+            'unique for this type of object and so the system edited it.'))
 
     _slug_source = 'title'  # A common case field, which is not given here.
 
