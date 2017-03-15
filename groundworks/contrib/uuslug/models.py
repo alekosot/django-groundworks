@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models
+from django.db import models, IntegrityError
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
@@ -20,10 +20,22 @@ class UUSlugged(models.Model):
     class Meta:
         abstract = True
 
-    def generate_slug(self):
-        return uuslug(getattr(self, self._slug_source), instance=self)
+    def generate_slug(self, source=''):
+        if not source:
+            source = getattr(self, self._slug_source)
+        return uuslug(source, instance=self)
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = self.generate_slug()
-        return super(Slugged, self).save(*args, **kwargs)
+        if not self.pk:
+            if self.slug:
+                # A slug has been defined elsewhere, try to go with it
+                try:
+                    out = super(UUSlugged, self).save(*args, **kwargs)
+                except IntegrityError:
+                    # The slug is not unique, try to use it as a slug source
+                    # for uuslug though, since it would be closer to the
+                    # already defined slug.
+                    self.slug = self.generate_slug(self.slug)
+            else:
+                self.slug = generate_slug()
+        return super(UUSlugged, self).save(*args, **kwargs)
