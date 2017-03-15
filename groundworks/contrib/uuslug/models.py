@@ -14,9 +14,10 @@ class UUSlugged(models.Model):
     Adds a slug field, with a unique constraint and uses django-uuslug on it.
     """
     slug = models.SlugField(
-        _('partial URL'), max_length=255, unique=True, help_text=_(
-            'If this is edited after "save", then what you entered is not '
-            'unique for this type of object and so the system edited it.'))
+        _('partial URL'), max_length=255, unique=True, blank=True,
+        help_text=_('This has to be unique. If its value is not what you '
+                    'entered, it is because the system edited it, in order '
+                    'to make it unique.'))
 
     _slug_source = 'title'  # A common case field, which is not given here.
 
