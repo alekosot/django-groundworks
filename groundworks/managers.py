@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import random
+
 from django.db import models
 from django.utils import timezone
 
@@ -87,3 +89,30 @@ class UndeletableManager(models.Manager):
 
     def not_deleted(self):
         return self.get_queryset().not_deleted()
+
+
+class RandomizingManager(models.Manager):
+    def get_pool_for_random(self, count):
+        """
+        Provides the initial pool of instances that ``get_random`` will return
+        instances from.
+        """
+        return self.get_queryset().distinct('pk')
+
+    def get_random(self, count):
+        """
+        Returns random instances for the managed Model from a sample pool of
+        instances. The sample pool is the *sequence* returned from
+        ``get_pool_for_random``. The amount is equal to count if there are
+        enough instances in the sample pool.
+        """
+        choices = []
+        pool = set(self.get_pool_for_random(count))
+        while count:
+            try:
+                choices = random.sample(pool, count)
+            except ValueError:  # Not enough instances to fetch
+                count -= 1
+            else:
+                break
+        return choices
