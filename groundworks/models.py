@@ -49,9 +49,12 @@ class Publishable(models.Model):
 
 
 class WithMetadata(models.Model):
-    meta_title = models.CharField(_('meta title'), blank=True, max_length=140)
+    meta_title = models.CharField(
+        _('meta title'), blank=True, max_length=140,
+        help_text=_('This cannot be more than 140 characters.'))
     meta_description = models.TextField(
-        _('meta description'), blank=True, max_length=160)
+        _('meta description'), blank=True, max_length=160,
+        help_text=_('This cannot be more than 160 characters.'))
 
     class Meta:
         abstract = True
