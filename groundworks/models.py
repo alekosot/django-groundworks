@@ -49,13 +49,9 @@ class Publishable(models.Model):
 
 
 class WithMetadata(models.Model):
-    meta_title = models.CharField(_('meta title'), blank=True, max_length=255)
+    meta_title = models.CharField(_('meta title'), blank=True, max_length=140)
     meta_description = models.TextField(
-        _('meta description'), blank=True, max_length=255, help_text=_(
-            'Normally you should keep this between 150 and 160 characters'))
-    meta_keywords = models.CharField(
-        _('meta keywords'), blank=True, help_text=(
-            'Keep in mind to use commas inbetween keywords and key phrases.'))
+        _('meta description'), blank=True, max_length=160)
 
     class Meta:
         abstract = True
