@@ -15,9 +15,13 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def naive_i18n_url(context, lang):
+def naive_i18n_url(context, lang, unprefixed_default_language=False):
     """
     Returns the current url path with the language changed to the lang given.
+
+    Set ``unprefixed_default_language`` to a truthy value in order for this to
+    work with the ``prefix_default_language=False`` option of
+    ``i18n_patterns``.
 
     This is done in a very naive manner, with the assumption that the current
     url corresponds to the format of django's i18n_patterns (i.e. /en/about/,
@@ -25,7 +29,10 @@ def naive_i18n_url(context, lang):
     passed to it, which is your responsibility.
     """
     path_parts = context['request'].path.split('/')
-    path_parts[1] = lang
+    if lang == settings.LANGUAGE_CODE and unprefixed_default_language:
+        path_parts.pop(1)
+    else:
+        path_parts.insert(1, lang)
     return '/'.join(path_parts)
 
 
