@@ -7,7 +7,8 @@ from django import template
 from django.conf import settings
 from django.utils.translation import (
     get_language_from_request,
-    get_language_info
+    get_language_info,
+    get_language
 )
 
 
@@ -29,9 +30,10 @@ def naive_i18n_url(context, lang, unprefixed_default_language=False):
     passed to it, which is your responsibility.
     """
     path_parts = context['request'].path.split('/')
-    if lang == settings.LANGUAGE_CODE and unprefixed_default_language:
+    current = get_language()
+    if unprefixed_default_language and current != settings.LANGUAGE_CODE:
         path_parts.pop(1)
-    else:
+    if not (lang == settings.LANGUAGE_CODE and unprefixed_default_language):
         path_parts.insert(1, lang)
     return '/'.join(path_parts)
 
