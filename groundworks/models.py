@@ -31,8 +31,8 @@ class Publishable(models.Model):
         _('published on'), blank=True, null=True, help_text=_(
             'This will not be shown until the date and time given here.'))
     is_published = models.BooleanField(
-        _('Is this published?'), default=False, help_text=_(
-            'This will not be shown if this is unchecked.'))
+        _('Published'), default=False, help_text=_(
+            'This will not be shown publicly if this is unchecked.'))
 
     objects = managers.PublishableManager()
 
@@ -41,11 +41,15 @@ class Publishable(models.Model):
         base_manager_name = 'objects'
 
     @property
-    def is_draft(self):
+    def is_draft(self, datetime=None):
+        """
+        Check if this is draft for this datetime (or at the time of the call).
+        """
         if not self.date_published:
             return True
         else:
-            return self.date_published > timezone.now()
+            datetime = datetime or timezone.now()
+            return self.date_published > datetime
 
 
 class WithMetadata(models.Model):
