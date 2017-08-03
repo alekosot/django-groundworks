@@ -40,7 +40,6 @@ class Publishable(models.Model):
         abstract = True
         base_manager_name = 'objects'
 
-    @property
     def is_draft(self, datetime=None):
         """
         Check if this is draft for this datetime (or at the time of the call).
