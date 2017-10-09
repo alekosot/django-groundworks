@@ -3,8 +3,11 @@
 """
 from __future__ import unicode_literals
 
+import unicodedata
+
 from django import template
 from django.conf import settings
+from django.utils.encoding import force_text
 from django.utils.translation import (
     get_language_from_request,
     get_language_info,
@@ -63,3 +66,15 @@ def sorted_languages_info(context, check_path=True):
     langs.remove(current_lang)
     langs.insert(0, current_lang)
     return [get_language_info(lang) for lang in langs]
+
+
+@register.filter
+def strip_accents(obj):
+    """
+    Return ``obj`` as a string (or unicode in Python2) with its accents
+    removed.
+    """
+    string = force_text(obj)
+    accentless_chars = [c for c in unicodedata.normalize('NFD', string)
+                        if unicodedata.category(c) != 'Mn']
+    return ''.join(accentless_chars)
