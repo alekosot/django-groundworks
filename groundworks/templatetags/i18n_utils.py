@@ -34,9 +34,11 @@ def naive_i18n_url(context, lang, unprefixed_default_language=False):
     """
     path_parts = context['request'].path.split('/')
     current = get_language()
-    if unprefixed_default_language and current != settings.LANGUAGE_CODE:
+    if (unprefixed_default_language and current != settings.LANGUAGE_CODE)  \
+            or not unprefixed_default_language:
         path_parts.pop(1)
-    if not (lang == settings.LANGUAGE_CODE and unprefixed_default_language):
+    if not (lang == settings.LANGUAGE_CODE and unprefixed_default_language)  \
+            or not unprefixed_default_language:
         path_parts.insert(1, lang)
     return '/'.join(path_parts)
 
