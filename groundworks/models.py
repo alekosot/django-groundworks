@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.urls import reverse_lazy
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.utils import six, timezone
@@ -120,3 +121,35 @@ class WithEnforcedValues(models.Model):
                     setattr(self, field, value(self))
                 setattr(self, field, value)
         return super(WithEnforcedValues, self).save(*args, **kwargs)
+
+
+class RegisteredInAdmin(models.Model):
+    """
+    Abstraction for ``Model``s registered in the django's admin site.
+    """
+
+    class Meta:
+        abstract = True
+
+    def get_admin_url(self):
+        """
+        Return the absolute url of this ``Model`` instance in the admin site
+        of Django.
+
+        If this instance has not been saved to the database yet, return the
+        ``add`` view for this Model, otherwise return the ``change`` view.
+
+        NOTE: This assumes that the url names and namespace are the ones given
+        in the docs.
+        """
+        url_name = 'admin:{}_{}'.format(
+            self._meta.app_label,
+            self._meta.model_name
+        )
+        if self.pk:
+            url_name += '_change'
+            url = reverse_lazy(url_name, args=(self.pk,))
+        else:
+            url_name += '_add'
+            url = reverse_lazy(url_name)
+        return url
