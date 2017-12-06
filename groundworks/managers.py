@@ -7,6 +7,25 @@ from django.db import models
 from django.utils import timezone
 
 
+class ActivatableQuerySet(models.QuerySet):
+    """
+    A ``QuerySet`` for ``Activatable`` models
+    """
+    def active(self):
+        return self.filter(is_active=True)
+
+
+class ActivatableManager(models.Manager):
+    """
+    A ``Manager`` for ``Activatable`` models
+    """
+    def get_queryset(self):
+        return ActivatableQuerySet(self.model, using=self._db)
+
+    def active(self):
+        return self.get_queryset().active()
+
+
 class TimeStampedQuerySet(models.QuerySet):
     """
     A ``QuerySet`` for ``TimeStamped`` models.

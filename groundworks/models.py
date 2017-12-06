@@ -7,7 +7,17 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.utils import six, timezone
 
-from groundworks import managers
+from groundworks import managers as gw_managers
+
+
+class Activatable(models.Model):
+    is_active = models.BooleanField(_('Published'), default=False)
+
+    objects = gw_managers.ActivatableManager()
+
+    class Meta:
+        abstract = True
+        base_manager_name = 'objects'
 
 
 class TimeStamped(models.Model):
@@ -15,7 +25,7 @@ class TimeStamped(models.Model):
     date_updated = models.DateTimeField(
         _('date updated'), default=timezone.now)
 
-    objects = managers.TimeStampedManager()
+    objects = gw_managers.TimeStampedManager()
 
     class Meta:
         abstract = True
@@ -35,7 +45,7 @@ class Publishable(models.Model):
         _('Published'), default=False, help_text=_(
             'This will not be shown publicly if this is unchecked.'))
 
-    objects = managers.PublishableManager()
+    objects = gw_managers.PublishableManager()
 
     class Meta:
         abstract = True
@@ -79,7 +89,7 @@ class Undeletable(models.Model):
     """
     date_deleted = models.DateTimeField(blank=True)
 
-    objects = managers.UndeletableManager()
+    objects = gw_managers.UndeletableManager()
 
     class Meta:
         abstract = True
