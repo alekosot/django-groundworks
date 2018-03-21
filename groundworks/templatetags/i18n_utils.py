@@ -80,3 +80,8 @@ def strip_accents(obj):
     accentless_chars = [c for c in unicodedata.normalize('NFD', string)
                         if unicodedata.category(c) != 'Mn']
     return ''.join(accentless_chars)
+
+
+@register.simple_tag
+def absolute_url_for_lang(obj, lang):
+    return obj.get_absolute_url_for_lang(lang)

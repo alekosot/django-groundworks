@@ -3,8 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.urls import reverse_lazy
-from django.utils.encoding import python_2_unicode_compatible
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import activate, get_language, ugettext_lazy as _
 from django.utils import six, timezone
 
 from groundworks import managers as gw_managers
@@ -162,4 +161,30 @@ class RegisteredInAdmin(models.Model):
         else:
             url_name += '_add'
             url = reverse_lazy(url_name)
+        return url
+
+
+class WithMultilingualURL(models.Model):
+    """
+    Abstraction that helps with the access of a ``Model``'s URL in different
+    languages.
+    """
+
+    class Meta:
+        abstract = True
+
+    def get_absolute_url(self):
+        raise NotImplementedError('Subclasses should implement this')
+
+    def get_absolute_url_for_lang(self, lang):
+        """
+        Return the absolute URL for this instance for the language specified.
+
+        For accessing this method in a template parsed with Django's template
+        language, use ``groundworks.templatetags.absolute_url_for_lang``.
+        """
+        current_lang = get_language()
+        activate(lang)
+        url = self.get_absolute_url()
+        activate(current_lang)
         return url
