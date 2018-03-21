@@ -7,6 +7,7 @@ import unicodedata
 
 from django import template
 from django.conf import settings
+from django.urls import translate_url
 from django.utils.encoding import force_text
 from django.utils.translation import (
     get_language_from_request,
@@ -80,6 +81,12 @@ def strip_accents(obj):
     accentless_chars = [c for c in unicodedata.normalize('NFD', string)
                         if unicodedata.category(c) != 'Mn']
     return ''.join(accentless_chars)
+
+
+@register.simple_tag(takes_context=True)
+def translate_current_url(context, lang):
+    url = context['request'].path
+    return translate_url(url, lang)
 
 
 @register.simple_tag
