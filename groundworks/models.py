@@ -54,7 +54,7 @@ class Publishable(models.Model):
         """
         Check if this is draft for this datetime (or at the time of the call).
         """
-        if not self.date_published:
+        if not self.is_published or not self.date_published:
             return True
         else:
             datetime = datetime or timezone.now()

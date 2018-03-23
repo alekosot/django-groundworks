@@ -52,16 +52,24 @@ class PublishableQuerySet(models.QuerySet):
     A ``QuerySet`` for ``Publishable`` models.
     """
 
-    def published(self):
+    def draft(self):
+        now = timezone.now()
         return self.filter(
-            is_published=True, date_published__lte=timezone.now()
+            models.Q(is_published=False) | models.Q(date_published__gt=now)
         )
 
-    def draft(self):
-        return self.filter(
-            models.Q(is_published=False) |
-            models.Q(date_published__gt=timezone.now())
-        )
+    def published(self):
+        now = timezone.now()
+        return self.filter(is_published=True, date_published__lte=now)
+
+    def published_before(self, date):
+        return self.filter(publish_date__lt=date)
+
+    def published_after(self, date):
+        return self.filter(publish_date__gt=date)
+
+    def published_between(self, start, end):
+        return self.filter(publish_date__range=(start, end))
 
 
 class PublishableManager(models.Manager):
@@ -72,12 +80,20 @@ class PublishableManager(models.Manager):
     def get_queryset(self):
         return PublishableQuerySet(self.model, using=self._db)
 
-    def published(self):
-        return self.get_queryset().published()
-
     def draft(self):
         return self.get_queryset().draft()
 
+    def published(self):
+        return self.get_queryset().published()
+
+    def published_before(self, date):
+        return self.get_queryset().published_before(date)
+
+    def published_after(self, date):
+        return self.get_queryset().published_after(date)
+
+    def published_between(self, start, end):
+        return self.get_queryset().published_between(start, end)
 
 class UndeletableQuerySet(models.QuerySet):
     """
