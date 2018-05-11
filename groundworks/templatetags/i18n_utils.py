@@ -87,16 +87,15 @@ def strip_accents(obj):
 def translate_current_url(context, lang):
     query = ''
     try:
-        query = context['request'].get_full_path()
+        url = context['request'].get_full_path()
     except KeyError:
         pass
     else:
-        try:
-            query = query.split('?')[1]
-        except IndexError:
-            pass
+        if '?' in url:
+            url, query = url.split('?')
+        else:
+            url = url
 
-    url = context['request'].path
     url = translate_url(url, lang)
     url = url + '?' + query if query else url
 
