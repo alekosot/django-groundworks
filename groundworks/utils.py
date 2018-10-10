@@ -16,9 +16,8 @@ def has_edit_user_permissions(user):
     User = get_user_model()
     app = User._meta.app_label
     model = User.__name__.lower()
-    return user.has_perms([
-        code.format(app, model) for code in ['add_{}.{}', 'change_{}.{}']
-    ])
+    perms = [code.format(app, model) for code in ['{}.add_{}', '{}.change_{}']]
+    return user.has_perms(perms)
 
 
 def upload_path(instance, filename):
