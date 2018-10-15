@@ -3,8 +3,10 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.urls import reverse_lazy
-from django.utils.translation import activate, get_language, ugettext_lazy as _
 from django.utils import six, timezone
+from django.utils.encoding import force_text
+from django.utils.translation import activate, get_language, ugettext_lazy as _
+
 
 from groundworks import managers as gw_managers
 
@@ -185,6 +187,6 @@ class WithMultilingualURL(models.Model):
         """
         current_lang = get_language()
         activate(lang)
-        url = self.get_absolute_url()
+        url = force_text(self.get_absolute_url())
         activate(current_lang)
         return url
