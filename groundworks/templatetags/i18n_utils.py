@@ -9,11 +9,7 @@ from django import template
 from django.conf import settings
 from django.urls import translate_url
 from django.utils.encoding import force_text
-from django.utils.translation import (
-    get_language_from_request,
-    get_language_info,
-    get_language
-)
+from django.utils.translation import get_language_info, get_language
 
 
 register = template.Library()
@@ -45,13 +41,11 @@ def naive_i18n_url(context, lang, unprefixed_default_language=False):
 
 
 @register.simple_tag(takes_context=True)
-def sorted_languages_info(context, check_path=True):
+def sorted_languages_info(context):
     """
     Wrapper around django's ``get_language_info`` i18n utility, that returns
     the "info" for all languages given in settings.LANGUAGES, with the
-    active one being first. The identification of the current language is done
-    with the use of ``get_language_from_request``, which is passed the
-    ``check_path`` parameter.
+    active one being first.
 
     Usage::
 
@@ -65,7 +59,7 @@ def sorted_languages_info(context, check_path=True):
         {% endfor %}
     """
     langs = [_lang[0] for _lang in settings.LANGUAGES]
-    current_lang = get_language_from_request(context['request'], check_path)
+    current_lang = get_language(context['request'])
     langs.remove(current_lang)
     langs.insert(0, current_lang)
     return [get_language_info(lang) for lang in langs]
