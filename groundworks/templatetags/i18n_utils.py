@@ -59,7 +59,7 @@ def sorted_languages_info(context):
         {% endfor %}
     """
     langs = [_lang[0] for _lang in settings.LANGUAGES]
-    current_lang = get_language(context['request'])
+    current_lang = get_language()
     langs.remove(current_lang)
     langs.insert(0, current_lang)
     return [get_language_info(lang) for lang in langs]
