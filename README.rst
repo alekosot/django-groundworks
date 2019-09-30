@@ -11,4 +11,4 @@ Install in your virtual environment with:
 
 .. code:: bash
 
-  $ pip install -e git+https://github.com/alxs/django-groundworks.git#egg=groundworks
+  $ pip install -e git+https://gitlab.com/alekosot/django-groundworks.git#egg=groundworks
