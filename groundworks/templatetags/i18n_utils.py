@@ -80,15 +80,11 @@ def strip_accents(obj):
 @register.simple_tag(takes_context=True)
 def translate_current_url(context, lang):
     query = ''
-    try:
-        url = context['request'].get_full_path()
-    except KeyError:
-        pass
+    url = context['request'].get_full_path()
+    if '?' in url:
+        url, query = url.split('?')
     else:
-        if '?' in url:
-            url, query = url.split('?')
-        else:
-            url = url
+        url = url
 
     url = translate_url(url, lang)
     url = url + '?' + query if query else url
