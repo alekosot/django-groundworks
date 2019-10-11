@@ -127,7 +127,7 @@ class UndeletableManager(models.Manager):
 
 
 class RandomizingManager(models.Manager):
-    def get_pool_for_random(self, count):
+    def _get_pool_for_random(self):
         """
         Provides the initial pool of instances that ``get_random`` will return
         instances from.
@@ -142,7 +142,7 @@ class RandomizingManager(models.Manager):
         enough instances in the sample pool.
         """
         choices = []
-        pool = set(self.get_pool_for_random(count))
+        pool = set(self._get_pool_for_random())
         while count:
             try:
                 choices = random.sample(pool, count)
