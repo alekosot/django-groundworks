@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.core.mail import mail_admins
 from django.middleware.common import BrokenLinkEmailsMiddleware
+from django.utils.encoding import force_text
 
 
 class BrokenLinkEmailsToAdminsMiddleware(BrokenLinkEmailsMiddleware):
